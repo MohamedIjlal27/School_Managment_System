@@ -17,7 +17,7 @@ const Student = () => {
   const TeachData = [
     {
       id: 1,
-      subject_name: "Mohamed Ijlal",
+      class_room: "Mohamed Ijlal",
     },
   ];
 
@@ -69,7 +69,7 @@ const Student = () => {
         </div>
         <Container>
           <p>
-            <b>Allocate Subjects</b>
+            <b>Allocate Classroom</b>
           </p>
           <br />
           <Row className="mb-3">
@@ -104,7 +104,7 @@ const Student = () => {
             <p>Allocated Subjects</p>
             <Col>
               <label htmlFor="teacher_details" className="form-label">
-                Subject
+                Class Room
               </label>
               <select
                 id="myDropdown"
@@ -130,7 +130,7 @@ const Student = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Subject</th>
+                <th>Classrooms</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -139,7 +139,7 @@ const Student = () => {
                 ? data.map((item, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.subject_name}</td>
+                      <td>{item.class_room}</td>
 
                       <td colSpan={2}>
                         <button
