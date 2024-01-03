@@ -6,8 +6,10 @@ import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Navbar from "react-bootstrap/Navbar";
 import "./styles.css";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Student = () => {
   const [show, setShow] = useState(false);
@@ -51,24 +53,132 @@ const Student = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    setData(stdData);
+    getData();
   }, []);
 
+  const getData = () => {
+    axios
+      .get("https://localhost:7019/api/Student")
+      .then((result) => {
+        setData(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleEdit = (id) => {
-    // alert(id);
     handleShow();
+    axios
+      .get(`https://localhost:7019/api/Student/${id}`)
+      .then((result) => {
+        setEditFirstName(result.data.firstname);
+        setEditLastName(result.data.lastname);
+        setEditContactPerson(result.data.contactperson);
+        setEditContactNo(result.data.contactno);
+        setEditEmailAddress(result.data.emailaddress);
+        setEditDateOfBirth(result.data.dateofbirth);
+        setEditAge(result.data.age);
+        setEditClassroom(result.data.classroom);
+        setEditId(id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleSave = () => {
+    const url = "https://localhost:7019/api/Student";
+    const data = {
+      firstname: firstname,
+      lastname: lastname,
+      contactperson: contactperson,
+      contactno: contactno,
+      emailaddress: emailaddress,
+      dateofbirth: dateofbirth,
+      age: age,
+      classroom: classroom,
+    };
+
+    axios
+      .post(url, data)
+      .then((result) => {
+        getData();
+        clear();
+        toast.success("Student has been added");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+
+  const clear = () => {
+    setFirstName("");
+    setLastName("");
+    setContactPerson("");
+    setContactNo("");
+    setEmailAddress("");
+    setDateOfBirth("");
+    setAge(0);
+    setClassroom("");
+
+    setEditId("");
+    setEditFirstName("");
+    setEditLastName("");
+    setEditContactPerson("");
+    setEditContactNo("");
+    setEditEmailAddress("");
+    setEditDateOfBirth("");
+    setEditAge(0);
+    setEditClassroom("");
   };
 
   const handleDelete = (id) => {
     if (window.confirm("Are You Sure to delete this employee") === true) {
-      alert(id);
+      axios
+        .delete(`https://localhost:7019/api/Student/${id}`)
+        .then((result) => {
+          if (result.status === 200) {
+            toast.success("Student has been deleted");
+            getData();
+          }
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
     }
   };
 
-  const handleUpdate = (id) => {};
+  const handleUpdate = (id) => {
+    const url = `https://localhost:7019/api/Student/${editId}`;
+    const data = {
+      id: editId,
+      firstname: editFirstName,
+      lastname: editLastName,
+      contactperson: editcontactperson,
+      contactno: editContactNo,
+      emailaddress: editEmailAddress,
+      dateofbirth: editDateOfBirth,
+      age: editAge,
+      classroom: editClassroom,
+    };
+
+    axios
+      .put(url, data)
+      .then((result) => {
+        handleClose();
+        getData();
+        clear();
+        toast.success("Student has been updated");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
 
   return (
     <Fragment>
+      <ToastContainer />
       <div className="header">
         <Row className="mb-3">
           <Col>
@@ -232,7 +342,9 @@ const Student = () => {
 
           <Row className="mb-3">
             <Col>
-              <button className="btn btn-primary">Save</button>
+              <button className="btn btn-primary" onClick={() => handleSave()}>
+                Save
+              </button>
             </Col>
           </Row>
         </Container>
@@ -261,12 +373,12 @@ const Student = () => {
                 ? data.map((item, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.first_name}</td>
-                      <td>{item.last_name}</td>
-                      <td>{item.contact_person}</td>
-                      <td>{item.contact_no}</td>
-                      <td>{item.email_address}</td>
-                      <td>{item.date_of_birth}</td>
+                      <td>{item.firstname}</td>
+                      <td>{item.lastname}</td>
+                      <td>{item.contactperson}</td>
+                      <td>{item.contactno}</td>
+                      <td>{item.emailaddress}</td>
+                      <td>{item.dateofbirth}</td>
                       <td>{item.age}</td>
                       <td>{item.class_room}</td>
                       <td colSpan={2}>
