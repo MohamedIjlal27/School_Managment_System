@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
+.btn1 {
+  position: absolute;
+  top: 30%;
+  right: 60%;
+}
+
+.btn2 {
+  position: absolute;
+  top: 37%;
+  right: 60%;
+}
+
+.btn3 {
+  position: absolute;
+  top: 44%;
+  right: 60%;
+}
+
+.btn4 {
+  position: absolute;
+  top: 51%;
+  right: 55%;
+}
+
+.btn5 {
+  position: absolute;
+  top: 30%;
+  right: 50%;
+}
+
+.btn6 {
+  position: absolute;
+  top: 37%;
+  right: 50%;
+}
+
+.btn7 {
+  position: absolute;
+  top: 44%;
+  right: 50%;
+}
