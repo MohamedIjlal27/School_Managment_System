@@ -14,21 +14,18 @@ const Student = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const TeachData = [
+  const clssData = [
     {
       id: 1,
-      first_name: "Mohamed Ijlal",
-      last_name: "Mohamed Ijlal",
 
-      contact_no: "0760527397",
-      email_address: "ijlalssck1940@gmail.com",
+      class_room: "A2201",
     },
   ];
 
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    setData(TeachData);
+    setData(clssData);
   }, []);
 
   const handleEdit = (id) => {
@@ -67,54 +64,18 @@ const Student = () => {
         </div>
         <Container>
           <p>
-            <b>Teachers Details</b>
+            <b>ClassRoom Details</b>
           </p>
           <br />
           <Row className="mb-3">
             <Col>
               <label htmlFor="first_name" className="form-label">
-                First Name
+                ClassRoom Name
               </label>
               <input
                 type="text"
                 id="first_name"
-                placeholder="Enter Your First Name"
-                className="form-control"
-              />
-            </Col>
-            <Col>
-              <label htmlFor="last_name" className="form-label">
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="last_name"
-                placeholder="Enter Your Last Name"
-                className="form-control"
-              />
-            </Col>
-          </Row>
-
-          <Row className="mb-3">
-            <Col>
-              <label htmlFor="contact_number" className="form-label">
-                Contact Number
-              </label>
-              <input
-                type="text"
-                id="contact_number"
-                placeholder="Enter Your Contact Number"
-                className="form-control"
-              />
-            </Col>
-            <Col>
-              <label htmlFor="email_address" className="form-label">
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email_address"
-                placeholder="Enter Your Email Address"
+                placeholder="ClassRoom Name"
                 className="form-control"
               />
             </Col>
@@ -129,16 +90,15 @@ const Student = () => {
 
         <Container>
           <p>
-            <b>Existing Student Details</b>
+            <b>ClassRoom Details</b>
           </p>
           <Table striped bordered hover>
             <thead>
               <tr>
                 <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Contact Number</th>
-                <th>Email Address</th>
+
+                <th>ClassRoom</th>
+
                 <th>Actions</th>
               </tr>
             </thead>
@@ -147,11 +107,7 @@ const Student = () => {
                 ? data.map((item, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.first_name}</td>
-                      <td>{item.last_name}</td>
-
-                      <td>{item.contact_no}</td>
-                      <td>{item.email_address}</td>
+                      <td>{item.class_room}</td>
 
                       <td colSpan={2}>
                         <button
@@ -189,48 +145,12 @@ const Student = () => {
           <Row className="mb-3">
             <Col>
               <label htmlFor="first_name" className="form-label">
-                First Name
+                Class Room
               </label>
               <input
                 type="text"
                 id="first_name"
-                placeholder="Enter Your First Name"
-                className="form-control"
-              />
-            </Col>
-            <Col>
-              <label htmlFor="last_name" className="form-label">
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="last_name"
-                placeholder="Enter Your Last Name"
-                className="form-control"
-              />
-            </Col>
-          </Row>
-
-          <Row className="mb-3">
-            <Col>
-              <label htmlFor="contact_number" className="form-label">
-                Contact Number
-              </label>
-              <input
-                type="text"
-                id="contact_number"
-                placeholder="Enter Your Contact Number"
-                className="form-control"
-              />
-            </Col>
-            <Col>
-              <label htmlFor="email_address" className="form-label">
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email_address"
-                placeholder="Enter Your Email Address"
+                placeholder="Class Room"
                 className="form-control"
               />
             </Col>

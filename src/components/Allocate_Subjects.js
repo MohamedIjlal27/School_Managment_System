@@ -67,34 +67,9 @@ const Student = () => {
         </div>
         <Container>
           <p>
-            <b>Teachers Details</b>
+            <b>Allocate Subjects</b>
           </p>
           <br />
-          <Row className="mb-3">
-            <Col>
-              <label htmlFor="first_name" className="form-label">
-                First Name
-              </label>
-              <input
-                type="text"
-                id="first_name"
-                placeholder="Enter Your First Name"
-                className="form-control"
-              />
-            </Col>
-            <Col>
-              <label htmlFor="last_name" className="form-label">
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="last_name"
-                placeholder="Enter Your Last Name"
-                className="form-control"
-              />
-            </Col>
-          </Row>
-
           <Row className="mb-3">
             <Col>
               <label htmlFor="contact_number" className="form-label">
@@ -104,17 +79,6 @@ const Student = () => {
                 type="text"
                 id="contact_number"
                 placeholder="Enter Your Contact Number"
-                className="form-control"
-              />
-            </Col>
-            <Col>
-              <label htmlFor="email_address" className="form-label">
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email_address"
-                placeholder="Enter Your Email Address"
                 className="form-control"
               />
             </Col>

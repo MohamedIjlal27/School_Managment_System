@@ -246,7 +246,106 @@ const Student = () => {
         </Modal.Header>
 
         <Modal.Body>
-          <p>Modal body text goes here.</p>
+          <Row className="mb-3">
+            <Col>
+              <label htmlFor="first_name" className="form-label">
+                First Name
+              </label>
+              <input
+                type="text"
+                id="first_name"
+                placeholder="Enter Your First Name"
+                className="form-control"
+              />
+            </Col>
+            <Col>
+              <label htmlFor="last_name" className="form-label">
+                Last Name
+              </label>
+              <input
+                type="text"
+                id="last_name"
+                placeholder="Enter Your Last Name"
+                className="form-control"
+              />
+            </Col>
+          </Row>
+
+          <Row className="mb-3">
+            <Col>
+              <label htmlFor="contact_person" className="form-label">
+                Contact Person Name
+              </label>
+              <input
+                type="text"
+                id="contact_person"
+                placeholder="Contact Person Name"
+                className="form-control"
+              />
+            </Col>
+            <Col>
+              <label htmlFor="contact_number" className="form-label">
+                Contact Number
+              </label>
+              <input
+                type="text"
+                id="contact_number"
+                placeholder="Enter Your Contact Number"
+                className="form-control"
+              />
+            </Col>
+          </Row>
+
+          <Row className="mb-3">
+            <Col>
+              <label htmlFor="email_address" className="form-label">
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email_address"
+                placeholder="Enter Your Email Address"
+                className="form-control"
+              />
+            </Col>
+
+            <Col>
+              <label htmlFor="date_of_birth" className="form-label">
+                Date of Birth
+              </label>
+              <input
+                type="date"
+                id="date_of_birth"
+                placeholder="Date of Birth"
+                className="form-control"
+              />
+            </Col>
+          </Row>
+
+          <Row className="mb-3">
+            <Col>
+              <label htmlFor="age" className="form-label">
+                Age
+              </label>
+              <input
+                type="number"
+                id="age"
+                placeholder="Age"
+                className="form-control"
+              />
+            </Col>
+            <Col>
+              <label htmlFor="class_room" className="form-label">
+                Class Room
+              </label>
+              <input
+                type="text"
+                id="class_room"
+                placeholder="Class Room"
+                className="form-control"
+              />
+            </Col>
+          </Row>
         </Modal.Body>
 
         <Modal.Footer>
