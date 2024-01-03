@@ -13,7 +13,6 @@ function App() {
   const [component, setComponent] = useState(null);
 
   useEffect(() => {
-    // Function to handle URL changes
     const handleUrlChange = () => {
       switch (window.location.pathname) {
         case "/Allocate_Classroom":
@@ -50,19 +49,15 @@ function App() {
       }
     };
 
-    // Add event listener for URL changes
     window.addEventListener("popstate", handleUrlChange);
 
-    // Call the handler once to set the initial component
     handleUrlChange();
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("popstate", handleUrlChange);
     };
-  }, []); // Empty dependency array to run only once when the component mounts
+  }, []);
 
-  // Conditionally render the Home component based on the current route
   return <>{window.location.pathname === "/" ? <Home /> : component}</>;
 }
 

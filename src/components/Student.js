@@ -15,6 +15,25 @@ const Student = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [contactperson, setContactPerson] = useState("");
+  const [contactno, setContactNo] = useState("");
+  const [emailaddress, setEmailAddress] = useState("");
+  const [dateofbirth, setDateOfBirth] = useState(null);
+  const [age, setAge] = useState(0);
+  const [classroom, setClassroom] = useState("");
+
+  const [editId, setEditId] = useState("");
+  const [editFirstName, setEditFirstName] = useState("");
+  const [editLastName, setEditLastName] = useState("");
+  const [editcontactperson, setEditContactPerson] = useState("");
+  const [editContactNo, setEditContactNo] = useState("");
+  const [editEmailAddress, setEditEmailAddress] = useState("");
+  const [editDateOfBirth, setEditDateOfBirth] = useState(null);
+  const [editAge, setEditAge] = useState(0);
+  const [editClassroom, setEditClassroom] = useState("");
+
   const stdData = [
     {
       id: 1,
@@ -101,6 +120,8 @@ const Student = () => {
                 id="first_name"
                 placeholder="Enter Your First Name"
                 className="form-control"
+                value={firstname}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </Col>
             <Col>
@@ -112,6 +133,8 @@ const Student = () => {
                 id="last_name"
                 placeholder="Enter Your Last Name"
                 className="form-control"
+                value={lastname}
+                onChange={(e) => setLastName(e.target.value)}
               />
             </Col>
           </Row>
@@ -126,6 +149,8 @@ const Student = () => {
                 id="contact_person"
                 placeholder="Contact Person Name"
                 className="form-control"
+                value={contactperson}
+                onChange={(e) => setContactPerson(e.target.value)}
               />
             </Col>
             <Col>
@@ -137,6 +162,8 @@ const Student = () => {
                 id="contact_number"
                 placeholder="Enter Your Contact Number"
                 className="form-control"
+                value={contactno}
+                onChange={(e) => setContactNo(e.target.value)}
               />
             </Col>
           </Row>
@@ -151,6 +178,8 @@ const Student = () => {
                 id="email_address"
                 placeholder="Enter Your Email Address"
                 className="form-control"
+                value={emailaddress}
+                onChange={(e) => setEmailAddress(e.target.value)}
               />
             </Col>
 
@@ -163,6 +192,8 @@ const Student = () => {
                 id="date_of_birth"
                 placeholder="Date of Birth"
                 className="form-control"
+                value={dateofbirth}
+                onChange={(e) => setDateOfBirth(e.target.value)}
               />
             </Col>
           </Row>
@@ -177,18 +208,25 @@ const Student = () => {
                 id="age"
                 placeholder="Age"
                 className="form-control"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
               />
             </Col>
             <Col>
               <label htmlFor="class_room" className="form-label">
                 Class Room
               </label>
-              <input
-                type="text"
-                id="class_room"
-                placeholder="Class Room"
+              <select
+                id="myDropdown"
+                value={classroom}
+                onChange={(e) => setClassroom(e.target.value)}
                 className="form-control"
-              />
+              >
+                <option value="">Select an option</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </select>
             </Col>
           </Row>
 
@@ -274,6 +312,8 @@ const Student = () => {
                 id="first_name"
                 placeholder="Enter Your First Name"
                 className="form-control"
+                value={editFirstName}
+                onChange={(e) => setEditFirstName(e.target.value)}
               />
             </Col>
             <Col>
@@ -285,6 +325,8 @@ const Student = () => {
                 id="last_name"
                 placeholder="Enter Your Last Name"
                 className="form-control"
+                value={editLastName}
+                onChange={(e) => setEditLastName(e.target.value)}
               />
             </Col>
           </Row>
@@ -299,6 +341,8 @@ const Student = () => {
                 id="contact_person"
                 placeholder="Contact Person Name"
                 className="form-control"
+                value={editcontactperson}
+                onChange={(e) => setEditContactPerson(e.target.value)}
               />
             </Col>
             <Col>
@@ -310,6 +354,8 @@ const Student = () => {
                 id="contact_number"
                 placeholder="Enter Your Contact Number"
                 className="form-control"
+                value={editContactNo}
+                onChange={(e) => setEditContactNo(e.target.value)}
               />
             </Col>
           </Row>
@@ -324,6 +370,8 @@ const Student = () => {
                 id="email_address"
                 placeholder="Enter Your Email Address"
                 className="form-control"
+                value={editEmailAddress}
+                onChange={(e) => setEditEmailAddress(e.target.value)}
               />
             </Col>
 
@@ -336,6 +384,8 @@ const Student = () => {
                 id="date_of_birth"
                 placeholder="Date of Birth"
                 className="form-control"
+                value={editDateOfBirth}
+                onChange={(e) => setEditDateOfBirth(e.target.value)}
               />
             </Col>
           </Row>
@@ -350,18 +400,25 @@ const Student = () => {
                 id="age"
                 placeholder="Age"
                 className="form-control"
+                value={editAge}
+                onChange={(e) => setEditAge(e.target.value)}
               />
             </Col>
             <Col>
               <label htmlFor="class_room" className="form-label">
                 Class Room
               </label>
-              <input
-                type="text"
-                id="class_room"
-                placeholder="Class Room"
+              <select
+                id="myDropdown"
+                value={editClassroom}
+                onChange={(e) => setEditClassroom(e.target.value)}
                 className="form-control"
-              />
+              >
+                <option value="">Select an option</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </select>
             </Col>
           </Row>
         </Modal.Body>
