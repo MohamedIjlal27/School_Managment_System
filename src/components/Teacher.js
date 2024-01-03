@@ -54,17 +54,33 @@ const Student = () => {
         </Row>
       </div>
       <div className="container">
-        <div className="navbar">
-          <Navbar expand="lg" className="bg-body-tertiary">
-            <Navbar.Brand href="Student.js">Student_Details</Navbar.Brand>
-            <Navbar.Brand href="">Classrooms</Navbar.Brand>
-            <Navbar.Brand href="#">Teachers</Navbar.Brand>
-            <Navbar.Brand href="#">Subjects</Navbar.Brand>
-            <Navbar.Brand href="#">Allocate_Subjects</Navbar.Brand>
-            <Navbar.Brand href="#">Allocate_Classrooms</Navbar.Brand>
-            <Navbar.Brand href="#">Student_Detail_Report</Navbar.Brand>
-          </Navbar>
-        </div>
+        <nav className="nav">
+          <ul>
+            <li>
+              <a href="/Allocate_Classroom">Allocate_Classroom</a>
+            </li>
+
+            <li>
+              <a href="/Allocate_Subjects">Allocate_Subjects</a>
+            </li>
+
+            <li>
+              <a href="/Classroom">Classroom</a>
+            </li>
+            <li>
+              <a href="/Student_details_Report">Student_details_Report</a>
+            </li>
+            <li>
+              <a href="Student">Student</a>
+            </li>
+            <li>
+              <a href="/Teacher">Teacher</a>
+            </li>
+            <li>
+              <a href="/Subject">Subject</a>
+            </li>
+          </ul>
+        </nav>
         <Container>
           <p>
             <b>Teachers Details</b>

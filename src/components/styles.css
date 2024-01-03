@@ -2,44 +2,32 @@
   box-sizing: border-box;
 }
 
-.btn1 {
-  position: absolute;
-  top: 30%;
-  right: 60%;
+body {
+  margin: 0;
 }
 
-.btn2 {
-  position: absolute;
-  top: 37%;
-  right: 60%;
+.nav {
+  background-color: #333;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 1rem;
 }
 
-.btn3 {
-  position: absolute;
-  top: 44%;
-  right: 60%;
+.nav a {
+  color: white;
 }
 
-.btn4 {
-  position: absolute;
-  top: 51%;
-  right: 55%;
+.nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 4rem;
 }
 
-.btn5 {
-  position: absolute;
-  top: 30%;
-  right: 50%;
-}
-
-.btn6 {
-  position: absolute;
-  top: 37%;
-  right: 50%;
-}
-
-.btn7 {
-  position: absolute;
-  top: 44%;
-  right: 50%;
+a {
+  color: white;
 }
