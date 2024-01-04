@@ -36,20 +36,6 @@ const Student = () => {
   const [editAge, setEditAge] = useState(0);
   const [editClassroom, setEditClassroom] = useState("");
 
-  const stdData = [
-    {
-      id: 1,
-      first_name: "Mohamed Ijlal",
-      last_name: "Mohamed Ijlal",
-      contact_person: "Rihana",
-      contact_no: "0760527397",
-      email_address: "ijlalssck1940@gmail.com",
-      date_of_birth: "2000-08-27",
-      age: 23,
-      class_room: "A2201",
-    },
-  ];
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -65,6 +51,39 @@ const Student = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+  const [clsRoom, setClsRoom] = useState([]);
+
+  const fetchClassRoomData = async () => {
+    try {
+      // Fetch Teacher data
+      const classroomResponse = await fetch(
+        "https://localhost:7019/api/Classroom/GetClassRoomNames"
+      );
+      const classroomResult = await classroomResponse.json();
+
+      setClsRoom(classroomResult);
+    } catch (error) {
+      console.error("Error fetching subject data:", error);
+    }
+  };
+
+  const [selectedTeachOption, setSelectedTeachOption] = useState("");
+  const [selectedClassRoomOption, setSelectedClassRoomOption] = useState("");
+
+  const [editSelectedClassRoomOption, setEditSelectedClassRoomOption] =
+    useState("");
+
+  const handleTechSelectChange = (event) => {
+    setSelectedTeachOption(event.target.value);
+  };
+
+  const handleClassRoomSelectChange = (event) => {
+    setSelectedClassRoomOption(event.target.value);
+  };
+
+  const handleClassRoomDropDownClick = () => {
+    fetchClassRoomData();
   };
 
   const handleEdit = (id) => {
@@ -97,7 +116,7 @@ const Student = () => {
       emailaddress: emailaddress,
       dateofbirth: dateofbirth,
       age: age,
-      classroom: classroom,
+      classroom: selectedClassRoomOption,
     };
 
     axios
@@ -160,7 +179,7 @@ const Student = () => {
       emailaddress: editEmailAddress,
       dateofbirth: editDateOfBirth,
       age: editAge,
-      classroom: editClassroom,
+      classroom: editSelectedClassRoomOption,
     };
 
     axios
@@ -323,19 +342,23 @@ const Student = () => {
               />
             </Col>
             <Col>
-              <label htmlFor="class_room" className="form-label">
-                Class Room
+              <label htmlFor="teacher_details" className="form-label">
+                ClassRoom
               </label>
               <select
-                id="myDropdown"
-                value={classroom}
-                onChange={(e) => setClassroom(e.target.value)}
+                id="subject_dropdown"
+                value={selectedClassRoomOption}
+                onChange={handleClassRoomSelectChange}
+                onClick={handleClassRoomDropDownClick}
                 className="form-control"
               >
                 <option value="">Select an option</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                {Array.isArray(clsRoom) &&
+                  clsRoom.map((name, index) => (
+                    <option key={index} value={name}>
+                      {name}
+                    </option>
+                  ))}
               </select>
             </Col>
           </Row>
@@ -380,7 +403,7 @@ const Student = () => {
                       <td>{item.emailaddress}</td>
                       <td>{item.dateofbirth}</td>
                       <td>{item.age}</td>
-                      <td>{item.class_room}</td>
+                      <td>{item.classroom}</td>
                       <td colSpan={2}>
                         <button
                           className="btn btn-primary"
@@ -517,19 +540,23 @@ const Student = () => {
               />
             </Col>
             <Col>
-              <label htmlFor="class_room" className="form-label">
-                Class Room
+              <label htmlFor="teacher_details" className="form-label">
+                ClassRoom
               </label>
               <select
-                id="myDropdown"
-                value={editClassroom}
-                onChange={(e) => setEditClassroom(e.target.value)}
+                id="subject_dropdown"
+                value={editSelectedClassRoomOption}
+                onChange={(e) => setEditSelectedClassRoomOption(e.target.value)}
+                onClick={handleClassRoomDropDownClick}
                 className="form-control"
               >
                 <option value="">Select an option</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                {Array.isArray(clsRoom) &&
+                  clsRoom.map((name, index) => (
+                    <option key={index} value={name}>
+                      {name}
+                    </option>
+                  ))}
               </select>
             </Col>
           </Row>

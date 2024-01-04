@@ -27,17 +27,6 @@ const Teacher = () => {
   const [editTeachContactNo, setEditTeachContactNo] = useState("");
   const [editTeachEmailAddress, setEditTeachEmailAddress] = useState("");
 
-  const TeachData = [
-    {
-      id: 1,
-      first_name: "Mohamed Ijlal",
-      last_name: "Mohamed Ijlal",
-
-      contact_no: "0760527397",
-      email_address: "ijlalssck1940@gmail.com",
-    },
-  ];
-
   const [data, setData] = useState([]);
 
   useEffect(() => {

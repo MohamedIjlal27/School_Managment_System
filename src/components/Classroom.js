@@ -21,14 +21,6 @@ const Classroom = () => {
   const [editClsID, setEditClsID] = useState("");
   const [editClsName, setEditClsName] = useState("");
 
-  const clssData = [
-    {
-      id: 1,
-
-      class_room: "A2201",
-    },
-  ];
-
   const [data, setData] = useState([]);
 
   useEffect(() => {

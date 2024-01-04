@@ -6,27 +6,81 @@ import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Navbar from "react-bootstrap/Navbar";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Student = () => {
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState("");
+  const [contactPerson, setContactPerson] = useState("");
+  const [contactNo, setContactNo] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [classroom, setClassroom] = useState("");
+  const [subjectTeacherList, setSubjectTeacherList] = useState([]);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const stdData = [
-    {
-      id: 1,
-      subject_name: "Mohamed Ijlal",
-      teacher: "Mohamed Ijlal",
-    },
-  ];
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    setData(stdData);
+    fetchStudents();
   }, []);
+
+  useEffect(() => {
+    if (selectedStudent) {
+      fetchStudentDetails(selectedStudent);
+    }
+  }, [selectedStudent]);
+
+  const fetchStudents = async () => {
+    try {
+      const response = await axios.get("https://localhost:7019/api/Student");
+      setStudents(response.data);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+    }
+  };
+
+  const fetchStudentDetails = async (studentId) => {
+    try {
+      const response = await axios.get(
+        `https://localhost:7019/api/Student/${studentId}`
+      );
+      const studentDetails = response.data;
+
+      console.log("Student Details Response:", studentDetails);
+
+      setContactPerson(studentDetails.contactperson);
+      setContactNo(studentDetails.contactno);
+      setEmailAddress(studentDetails.emailaddress);
+
+      const formattedDate = new Date(studentDetails.dateofbirth)
+        .toISOString()
+        .split("T")[0];
+      setDateOfBirth(formattedDate);
+
+      setClassroom(studentDetails.classroom);
+
+      fetchSubjectTeacherList(studentId);
+    } catch (error) {
+      console.error("Error fetching student details:", error);
+    }
+  };
+
+  const fetchSubjectTeacherList = async (allocatedSubId) => {
+    try {
+      const response = await axios.get(
+        `https://localhost:7019/api/AllocateSubjects/${allocatedSubId}`
+      );
+      setSubjectTeacherList(response.data);
+    } catch (error) {
+      console.error("Error fetching subject & teacher list:", error);
+    }
+  };
 
   const handleEdit = (id) => {
     // alert(id);
@@ -95,22 +149,30 @@ const Student = () => {
                 Student
               </label>
               <select
-                id="myDropdown"
-                value={selectedOption}
-                onChange={handleSelectChange}
+                id="studentSelect"
+                value={selectedStudent}
+                onChange={(e) => setSelectedStudent(e.target.value)}
                 className="form-control"
               >
-                <option value="">Select an option</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                <option value="">Select a student</option>
+                {students.map((student) => (
+                  <option key={student.id} value={student.id}>
+                    {student.firstname} {student.lastname}
+                  </option>
+                ))}
               </select>
             </Col>
             <Col>
               <label htmlFor="classroom" className="form-label">
                 Classroom
               </label>
-              <input type="text" id="last_name" className="form-control" />
+              <input
+                type="text"
+                id="last_name"
+                className="form-control"
+                value={classroom}
+                readOnly
+              />
             </Col>
           </Row>
 
@@ -121,6 +183,8 @@ const Student = () => {
               </label>
               <input
                 type="text"
+                value={contactPerson}
+                readOnly
                 id="contact_person"
                 placeholder="Contact Person Name"
                 className="form-control"
@@ -131,6 +195,8 @@ const Student = () => {
                 Contact Number
               </label>
               <input
+                value={contactNo}
+                readOnly
                 type="text"
                 id="contact_number"
                 placeholder="Enter Your Contact Number"
@@ -145,6 +211,8 @@ const Student = () => {
                 Email Address
               </label>
               <input
+                value={emailAddress}
+                readOnly
                 type="email"
                 id="email_address"
                 placeholder="Enter Your Email Address"
@@ -157,6 +225,8 @@ const Student = () => {
                 Date of Birth
               </label>
               <input
+                value={dateOfBirth}
+                readOnly
                 type="date"
                 id="date_of_birth"
                 placeholder="Date of Birth"
@@ -179,15 +249,12 @@ const Student = () => {
               </tr>
             </thead>
             <tbody>
-              {data && data.length > 0
-                ? data.map((item, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item.subject_name}</td>
-                      <td>{item.teacher}</td>
-                    </tr>
-                  ))
-                : "Loading..."}
+              {subjectTeacherList.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.subject}</td>
+                  <td>{item.teacher}</td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </Container>

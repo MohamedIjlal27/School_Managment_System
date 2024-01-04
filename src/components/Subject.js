@@ -6,7 +6,9 @@ import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Navbar from "react-bootstrap/Navbar";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Student = () => {
   const [show, setShow] = useState(false);
@@ -14,34 +16,104 @@ const Student = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const clssData = [
-    {
-      id: 1,
-      subject_name: "Maths",
-    },
-  ];
-
   const [data, setData] = useState([]);
 
+  const [subName, setSubName] = useState("");
+
+  const [editSubId, setEditSubId] = useState("");
+  const [editSubName, setEditSubName] = useState(0);
   useEffect(() => {
-    setData(clssData);
+    getData();
   }, []);
 
-  const handleEdit = (id) => {
-    // alert(id);
-    handleShow();
+  const getData = () => {
+    axios
+      .get("https://localhost:7019/api/Subject")
+      .then((result) => {
+        setData(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const handleDelete = (id) => {
+  const handleSave = () => {
+    const url = "https://localhost:7019/api/Subject";
+    const data = {
+      subName: subName,
+    };
+
+    axios
+      .post(url, data)
+      .then((result) => {
+        getData();
+        clear();
+        toast.success("Student has been added");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+
+  const clear = () => {
+    setSubName("");
+
+    setEditSubId("");
+    setEditSubName("");
+  };
+
+  const handleEdit = (subId) => {
+    handleShow();
+    axios
+      .get(`https://localhost:7019/api/Subject/${subId}`)
+      .then((result) => {
+        setEditSubId(result.data.subId);
+        setEditSubName(result.data.subName);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleDelete = (subId) => {
     if (window.confirm("Are You Sure to delete this employee") === true) {
-      alert(id);
+      axios
+        .delete(`https://localhost:7019/api/Subject/${subId}`)
+        .then((result) => {
+          if (result.status === 200) {
+            toast.success("Subject has been deleted");
+            getData();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
-  const handleUpdate = (id) => {};
+  const handleUpdate = (id) => {
+    const url = `https://localhost:7019/api/Subject/${editSubId}`;
+    const data = {
+      subId: editSubId,
+      subName: editSubName,
+    };
+
+    axios
+      .put(url, data)
+      .then((result) => {
+        handleClose();
+        getData();
+        clear();
+        toast.success("Student has been updated");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
 
   return (
     <Fragment>
+      <ToastContainer />
       <div className="header">
         <Row className="mb-3">
           <Col>
@@ -84,21 +156,25 @@ const Student = () => {
           <br />
           <Row className="mb-3">
             <Col>
-              <label htmlFor="first_name" className="form-label">
+              <label htmlFor="sub_name" className="form-label">
                 Subject Name
               </label>
               <input
                 type="text"
-                id="first_name"
+                id="sub_name"
                 placeholder="Subject Name"
                 className="form-control"
+                value={subName}
+                onChange={(e) => setSubName(e.target.value)}
               />
             </Col>
           </Row>
 
           <Row className="mb-3">
             <Col>
-              <button className="btn btn-primary">Save</button>
+              <button className="btn btn-primary" onClick={() => handleSave()}>
+                Save
+              </button>
             </Col>
           </Row>
         </Container>
@@ -122,13 +198,13 @@ const Student = () => {
                 ? data.map((item, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.subject_name}</td>
+                      <td>{item.subName}</td>
 
                       <td colSpan={2}>
                         <button
                           className="btn btn-primary"
                           onClick={() => {
-                            handleEdit(item.id);
+                            handleEdit(item.subId);
                           }}
                         >
                           Edit
@@ -137,7 +213,7 @@ const Student = () => {
                         <button
                           className="btn btn-danger"
                           onClick={() => {
-                            handleDelete(item.id);
+                            handleDelete(item.subId);
                           }}
                         >
                           Delete
@@ -159,14 +235,16 @@ const Student = () => {
         <Modal.Body>
           <Row className="mb-3">
             <Col>
-              <label htmlFor="first_name" className="form-label">
+              <label htmlFor="sub_name" className="form-label">
                 Subject Name
               </label>
               <input
                 type="text"
-                id="first_name"
+                id="sub_name"
                 placeholder="Subject Name"
                 className="form-control"
+                value={editSubName}
+                onChange={(e) => setEditSubName(e.target.value)}
               />
             </Col>
           </Row>

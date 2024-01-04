@@ -1,53 +1,139 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Navbar from "react-bootstrap/Navbar";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Student = () => {
+const Allocate_Subjects = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const TeachData = [
-    {
-      id: 1,
-      subject_name: "Mohamed Ijlal",
-    },
-  ];
+  const [teacherName, setTeacherName] = useState([]);
+  const [subName, setSubName] = useState([]);
+
+  const [editAllocatedSubId, setEditAllocatedSubId] = useState([]);
+  const [editTeacherName, setEditTeacherName] = useState([]);
+  const [editSubName, setEditSubName] = useState([]);
 
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    setData(TeachData);
-  }, []);
+  const fetchTeacherData = async () => {
+    try {
+      // Fetch Teacher data
+      const teacherResponse = await fetch(
+        "https://localhost:7019/api/Teacher/GetTeacherNames"
+      );
+      const teacherResult = await teacherResponse.json();
 
-  const handleEdit = (id) => {
-    // alert(id);
-    handleShow();
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are You Sure to delete this employee") === true) {
-      alert(id);
+      setTeacherName(teacherResult);
+    } catch (error) {
+      console.error("Error fetching teacher data:", error);
     }
   };
 
-  const handleUpdate = (id) => {};
+  const fetchSubjectData = async () => {
+    try {
+      // Fetch Teacher data
+      const subjectResponse = await fetch(
+        "https://localhost:7019/api/Subject/GetSubjectNames"
+      );
+      const subjectResult = await subjectResponse.json();
 
-  const [selectedOption, setSelectedOption] = useState("");
+      setSubName(subjectResult);
+    } catch (error) {
+      console.error("Error fetching subject data:", error);
+    }
+  };
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    axios
+      .get("https://localhost:7019/api/AllocateSubjects")
+      .then((result) => {
+        setData(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleSave = () => {
+    const url = "https://localhost:7019/api/AllocateSubjects";
+    const data = {
+      teacherName: selectedTeachOption,
+      subName: selectedSubOption,
+    };
+
+    axios
+      .post(url, data)
+      .then((result) => {
+        getData();
+        clear();
+        toast.success("Subjects have been allocated");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
+
+  const clear = () => {
+    setSubName("");
+    setTeacherName("");
+
+    setEditAllocatedSubId("");
+    setEditSubName("");
+    setEditTeacherName("");
+  };
+
+  const handleDelete = (allocatedSubId) => {
+    if (window.confirm("Are You Sure to delete this employee") === true) {
+      axios
+        .delete(`https://localhost:7019/api/AllocateSubjects/${allocatedSubId}`)
+        .then((result) => {
+          if (result.status === 200) {
+            toast.success("Record has been deleted");
+            getData();
+          }
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
+    }
+  };
+
+  const [selectedTeachOption, setSelectedTeachOption] = useState("");
+  const [selectedSubOption, setSelectedSubOption] = useState("");
+
+  const handleTechSelectChange = (event) => {
+    setSelectedTeachOption(event.target.value);
+  };
+
+  const handleSubSelectChange = (event) => {
+    setSelectedSubOption(event.target.value);
+  };
+
+  const handleTeacherDropdownClick = () => {
+    // Fetch Teacher data when the dropdown is clicked
+    fetchTeacherData();
+  };
+
+  const handleSubjectDropDownClick = () => {
+    fetchSubjectData();
   };
 
   return (
     <Fragment>
+      <ToastContainer />
       <div className="header">
         <Row className="mb-3">
           <Col>
@@ -95,27 +181,23 @@ const Student = () => {
                 Teacher Name
               </label>
               <select
-                id="myDropdown"
-                value={selectedOption}
-                onChange={handleSelectChange}
+                id="teacher_dropdown"
+                value={selectedTeachOption}
+                onChange={handleTechSelectChange}
+                onClick={handleTeacherDropdownClick}
                 className="form-control"
               >
                 <option value="">Select an option</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                {Array.isArray(teacherName) &&
+                  teacherName.map((name, index) => (
+                    <option key={index} value={name}>
+                      {name}
+                    </option>
+                  ))}
               </select>
             </Col>
           </Row>
 
-          <Row className="mb-3">
-            <Col>
-              <button className="btn btn-primary">Save</button>
-            </Col>
-          </Row>
-        </Container>
-
-        <Container>
           <Row className="mb-3">
             <p>Allocated Subjects</p>
             <Col>
@@ -123,22 +205,28 @@ const Student = () => {
                 Subject
               </label>
               <select
-                id="myDropdown"
-                value={selectedOption}
-                onChange={handleSelectChange}
+                id="subject_dropdown"
+                value={selectedSubOption}
+                onChange={handleSubSelectChange}
+                onClick={handleSubjectDropDownClick}
                 className="form-control"
               >
                 <option value="">Select an option</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                {Array.isArray(subName) &&
+                  subName.map((name, index) => (
+                    <option key={index} value={name}>
+                      {name}
+                    </option>
+                  ))}
               </select>
             </Col>
           </Row>
 
           <Row className="mb-3">
             <Col>
-              <button className="btn btn-primary">Allocate</button>
+              <button className="btn btn-primary" onClick={handleSave}>
+                Allocate
+              </button>
             </Col>
           </Row>
 
@@ -147,113 +235,40 @@ const Student = () => {
               <tr>
                 <th>#</th>
                 <th>Subject</th>
+                <th>Teacher Name</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {data && data.length > 0
-                ? data.map((item, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item.subject_name}</td>
-
-                      <td colSpan={2}>
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => {
-                            handleEdit(item.id);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        &nbsp;
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => {
-                            handleDelete(item.id);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                : "Loading..."}
+              {data && data.length > 0 ? (
+                data.map((item, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{item.subName}</td>
+                    <td>{item.teacherName}</td>
+                    <td>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                          handleDelete(item.allocatedSubId);
+                        }}
+                      >
+                        De-Allocate
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3">Loading...</td>
+                </tr>
+              )}
             </tbody>
           </Table>
         </Container>
-
-        {/* <Container></Container> */}
       </div>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modify / Update the Student Record</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <Row className="mb-3">
-            <Col>
-              <label htmlFor="first_name" className="form-label">
-                First Name
-              </label>
-              <input
-                type="text"
-                id="first_name"
-                placeholder="Enter Your First Name"
-                className="form-control"
-              />
-            </Col>
-            <Col>
-              <label htmlFor="last_name" className="form-label">
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="last_name"
-                placeholder="Enter Your Last Name"
-                className="form-control"
-              />
-            </Col>
-          </Row>
-
-          <Row className="mb-3">
-            <Col>
-              <label htmlFor="contact_number" className="form-label">
-                Contact Number
-              </label>
-              <input
-                type="text"
-                id="contact_number"
-                placeholder="Enter Your Contact Number"
-                className="form-control"
-              />
-            </Col>
-            <Col>
-              <label htmlFor="email_address" className="form-label">
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email_address"
-                placeholder="Enter Your Email Address"
-                className="form-control"
-              />
-            </Col>
-          </Row>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleUpdate}>
-            Save changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </Fragment>
   );
 };
 
-export default Student;
+export default Allocate_Subjects;
