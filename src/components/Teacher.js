@@ -6,13 +6,26 @@ import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Navbar from "react-bootstrap/Navbar";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Student = () => {
+const Teacher = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [teachFirstName, setTeachFirstName] = useState("");
+  const [teachSecondName, setTeachSecondName] = useState("");
+  const [teachContactNo, setTeachContactNo] = useState("");
+  const [teachEmailAddress, setTeachEmailAddress] = useState("");
+
+  const [editTeachId, setEditTeachId] = useState("");
+  const [editTeachFirstName, setEditTeachFirstName] = useState("");
+  const [editTeachSecondName, setEditTeachSecondName] = useState("");
+  const [editTeachContactNo, setEditTeachContactNo] = useState("");
+  const [editTeachEmailAddress, setEditTeachEmailAddress] = useState("");
 
   const TeachData = [
     {
@@ -28,24 +41,111 @@ const Student = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    setData(TeachData);
+    getData();
   }, []);
 
-  const handleEdit = (id) => {
-    // alert(id);
-    handleShow();
+  const getData = () => {
+    axios
+      .get("https://localhost:7019/api/Teacher")
+      .then((result) => {
+        setData(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const handleDelete = (id) => {
+  const handleSave = () => {
+    const url = "https://localhost:7019/api/Teacher";
+    const data = {
+      teachFirstName: teachFirstName,
+      teachSecondName: teachSecondName,
+      teachContactNo: teachContactNo,
+      teachEmailAddress: teachEmailAddress,
+    };
+
+    axios
+      .post(url, data)
+      .then((result) => {
+        getData();
+        clear();
+        toast.success("Teacher has been added");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+
+  const clear = () => {
+    setTeachFirstName("");
+    setTeachSecondName("");
+    setTeachContactNo("");
+    setTeachEmailAddress("");
+
+    setEditTeachFirstName("");
+    setEditTeachSecondName("");
+    setEditTeachContactNo("");
+    setEditTeachEmailAddress("");
+  };
+
+  const handleEdit = (teachId) => {
+    handleShow();
+    axios
+      .get(`https://localhost:7019/api/Teacher/${teachId}`)
+      .then((result) => {
+        setEditTeachFirstName(result.data.teachFirstName);
+        setEditTeachSecondName(result.data.teachSecondName);
+        setEditTeachContactNo(result.data.teachContactNo);
+        setEditTeachEmailAddress(result.data.teachEmailAddress);
+        setEditTeachId(teachId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleDelete = (teachId) => {
     if (window.confirm("Are You Sure to delete this employee") === true) {
-      alert(id);
+      axios
+        .delete(`https://localhost:7019/api/Teacher/${teachId}`)
+        .then((result) => {
+          if (result.status === 200) {
+            toast.success("Teacher has been deleted");
+            getData();
+          }
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
     }
   };
 
-  const handleUpdate = (id) => {};
+  const handleUpdate = (id) => {
+    const url = `https://localhost:7019/api/Teacher/${editTeachId}`;
+    const data = {
+      teachId: editTeachId,
+      teachFirstName: editTeachFirstName,
+      teachSecondName: editTeachSecondName,
+      teachContactNo: editTeachContactNo,
+      teachEmailAddress: editTeachEmailAddress,
+    };
+
+    axios
+      .put(url, data)
+      .then((result) => {
+        handleClose();
+        getData();
+        clear();
+        toast.success("Student has been updated");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
 
   return (
     <Fragment>
+      <ToastContainer />
       <div className="header">
         <Row className="mb-3">
           <Col>
@@ -96,6 +196,8 @@ const Student = () => {
                 id="first_name"
                 placeholder="Enter Your First Name"
                 className="form-control"
+                value={teachFirstName}
+                onChange={(e) => setTeachFirstName(e.target.value)}
               />
             </Col>
             <Col>
@@ -107,6 +209,8 @@ const Student = () => {
                 id="last_name"
                 placeholder="Enter Your Last Name"
                 className="form-control"
+                value={teachSecondName}
+                onChange={(e) => setTeachSecondName(e.target.value)}
               />
             </Col>
           </Row>
@@ -121,6 +225,8 @@ const Student = () => {
                 id="contact_number"
                 placeholder="Enter Your Contact Number"
                 className="form-control"
+                value={teachContactNo}
+                onChange={(e) => setTeachContactNo(e.target.value)}
               />
             </Col>
             <Col>
@@ -132,20 +238,24 @@ const Student = () => {
                 id="email_address"
                 placeholder="Enter Your Email Address"
                 className="form-control"
+                value={teachEmailAddress}
+                onChange={(e) => setTeachEmailAddress(e.target.value)}
               />
             </Col>
           </Row>
 
           <Row className="mb-3">
             <Col>
-              <button className="btn btn-primary">Save</button>
+              <button className="btn btn-primary" onClick={() => handleSave()}>
+                Save
+              </button>
             </Col>
           </Row>
         </Container>
 
         <Container>
           <p>
-            <b>Existing Student Details</b>
+            <b>Existing Teachers Details</b>
           </p>
           <Table striped bordered hover>
             <thead>
@@ -163,17 +273,16 @@ const Student = () => {
                 ? data.map((item, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.first_name}</td>
-                      <td>{item.last_name}</td>
-
-                      <td>{item.contact_no}</td>
-                      <td>{item.email_address}</td>
+                      <td>{item.teachFirstName}</td>
+                      <td>{item.teachSecondName}</td>
+                      <td>{item.teachContactNo}</td>
+                      <td>{item.teachEmailAddress}</td>
 
                       <td colSpan={2}>
                         <button
                           className="btn btn-primary"
                           onClick={() => {
-                            handleEdit(item.id);
+                            handleEdit(item.teachId);
                           }}
                         >
                           Edit
@@ -182,7 +291,7 @@ const Student = () => {
                         <button
                           className="btn btn-danger"
                           onClick={() => {
-                            handleDelete(item.id);
+                            handleDelete(item.teachId);
                           }}
                         >
                           Delete
@@ -212,6 +321,8 @@ const Student = () => {
                 id="first_name"
                 placeholder="Enter Your First Name"
                 className="form-control"
+                value={editTeachFirstName}
+                onChange={(e) => setEditTeachFirstName(e.target.value)}
               />
             </Col>
             <Col>
@@ -223,6 +334,8 @@ const Student = () => {
                 id="last_name"
                 placeholder="Enter Your Last Name"
                 className="form-control"
+                value={editTeachSecondName}
+                onChange={(e) => setEditTeachSecondName(e.target.value)}
               />
             </Col>
           </Row>
@@ -237,6 +350,8 @@ const Student = () => {
                 id="contact_number"
                 placeholder="Enter Your Contact Number"
                 className="form-control"
+                value={editTeachContactNo}
+                onChange={(e) => setEditTeachContactNo(e.target.value)}
               />
             </Col>
             <Col>
@@ -248,6 +363,8 @@ const Student = () => {
                 id="email_address"
                 placeholder="Enter Your Email Address"
                 className="form-control"
+                value={editTeachEmailAddress}
+                onChange={(e) => setEditTeachEmailAddress(e.target.value)}
               />
             </Col>
           </Row>
@@ -266,4 +383,4 @@ const Student = () => {
   );
 };
 
-export default Student;
+export default Teacher;
