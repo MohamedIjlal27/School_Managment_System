@@ -27,6 +27,10 @@ const Student = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
     fetchStudents();
   }, []);
 
