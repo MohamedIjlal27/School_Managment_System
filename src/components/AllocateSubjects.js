@@ -10,17 +10,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Allocate_Subjects = () => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [teacherName, setTeacherName] = useState([]);
   const [subName, setSubName] = useState([]);
-
-  const [editAllocatedSubId, setEditAllocatedSubId] = useState([]);
-  const [editTeacherName, setEditTeacherName] = useState([]);
-  const [editSubName, setEditSubName] = useState([]);
 
   const [data, setData] = useState([]);
 
@@ -89,10 +80,6 @@ const Allocate_Subjects = () => {
   const clear = () => {
     setSubName("");
     setTeacherName("");
-
-    setEditAllocatedSubId("");
-    setEditSubName("");
-    setEditTeacherName("");
   };
 
   const handleDelete = (allocatedSubId) => {
@@ -142,7 +129,7 @@ const Allocate_Subjects = () => {
         </Row>
       </div>
       <div className="container">
-        <nav className="nav">
+        {/* <nav className="nav">
           <ul>
             <li>
               <a href="/Allocate_Classroom">Allocate_Classroom</a>
@@ -168,7 +155,7 @@ const Allocate_Subjects = () => {
               <a href="/Subject">Subject</a>
             </li>
           </ul>
-        </nav>
+        </nav> */}
         <Container>
           <p>
             <b>Allocate Subjects</b>

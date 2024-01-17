@@ -206,7 +206,7 @@ const Student = () => {
         </Row>
       </div>
       <div className="container">
-        <nav className="nav">
+        {/*  <nav className="nav">
           <ul>
             <li>
               <a href="/Allocate_Classroom">Allocate_Classroom</a>
@@ -232,7 +232,7 @@ const Student = () => {
               <a href="/Subject">Subject</a>
             </li>
           </ul>
-        </nav>
+        </nav> */}
 
         <Container>
           <p>

@@ -1,8 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -11,17 +10,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Allocate_Classroom = () => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [teachName, setTeachName] = useState([]);
   const [clsRoom, setClsRoom] = useState([]);
-
-  const [editAllocatedSubId, setEditAllocatedSubId] = useState([]);
-  const [editTeachName, setEditTeachName] = useState([]);
-  const [editClsRoom, setEditClsRoom] = useState([]);
 
   const [data, setData] = useState([]);
 
@@ -91,10 +81,6 @@ const Allocate_Classroom = () => {
   const clear = () => {
     setClsRoom("");
     setTeachName("");
-
-    setEditAllocatedSubId("");
-    setEditClsRoom("");
-    setEditTeachName("");
   };
 
   const handleDelete = (allocateClassRoomId) => {
@@ -146,10 +132,10 @@ const Allocate_Classroom = () => {
         </Row>
       </div>
       <div className="container">
-        <nav className="nav">
+        {/* <nav className="nav">
           <ul>
             <li>
-              <a href="/Allocate_Classroom">Allocate_Classroom</a>
+              <a href="/">Allocate_Classroom</a>
             </li>
 
             <li>
@@ -172,7 +158,7 @@ const Allocate_Classroom = () => {
               <a href="/Subject">Subject</a>
             </li>
           </ul>
-        </nav>
+        </nav> */}
         <Container>
           <p>
             <b>Allocate ClassRooms</b>

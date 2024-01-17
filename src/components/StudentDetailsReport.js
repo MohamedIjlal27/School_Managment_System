@@ -1,14 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Student = () => {
   const [students, setStudents] = useState([]);
@@ -19,14 +16,6 @@ const Student = () => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [classroom, setClassroom] = useState("");
   const [subjectTeacherList, setSubjectTeacherList] = useState([]);
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const [data, setData] = useState([]);
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     fetchStudents();
@@ -84,25 +73,6 @@ const Student = () => {
     }
   };
 
-  const handleEdit = (id) => {
-    // alert(id);
-    handleShow();
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are You Sure to delete this employee") === true) {
-      alert(id);
-    }
-  };
-
-  const handleUpdate = (id) => {};
-
-  const [selectedOption, setSelectedOption] = useState("");
-
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
   return (
     <Fragment>
       <div className="header">
@@ -113,7 +83,7 @@ const Student = () => {
         </Row>
       </div>
       <div className="container">
-        <nav className="nav">
+        {/* <nav className="nav">
           <ul>
             <li>
               <a href="/Allocate_Classroom">Allocate_Classroom</a>
@@ -139,7 +109,7 @@ const Student = () => {
               <a href="/Subject">Subject</a>
             </li>
           </ul>
-        </nav>
+        </nav> */}
         <Container>
           <p>
             <b>Student Details Report</b>
