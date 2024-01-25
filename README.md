@@ -1,5 +1,8 @@
-USER NAME = "admin"
-PASSWORD = "admin"
+![Screenshot 2024-01-25 160455](https://github.com/MohamedIjlal27/School_Managment_System/assets/150043878/e006696a-a5fd-4717-8d86-09ce33abf402)
+
+![Screenshot 2024-01-25 160536](https://github.com/MohamedIjlal27/School_Managment_System/assets/150043878/95986a3c-d74e-4570-a598-e14b73289723)
+
+![Screenshot 2024-01-25 160559](https://github.com/MohamedIjlal27/School_Managment_System/assets/150043878/e7019a4c-c029-42b9-bbde-9a1bbffac5e5)
 
 # Getting Started with Create React App
 
